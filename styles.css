@@ -1,0 +1,291 @@
+:root {
+  --ink: #25282d;
+  --muted: #626a73;
+  --line: #d9dde2;
+  --header: #e9eef6;
+  --surface: #f7f8fa;
+  --button: #262a30;
+  --link: #2874d0;
+  --accent: #d94335;
+  --font: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: white;
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+select {
+  color: inherit;
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(40, 116, 208, 0.25);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  padding: 8px 12px;
+  color: white;
+  background: var(--button);
+  border-radius: 6px;
+  transform: translateY(-150%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.page-width {
+  width: min(1080px, calc(100% - 36px));
+  margin-inline: auto;
+}
+
+.paper-header {
+  padding: 48px 0 38px;
+  text-align: center;
+  background: linear-gradient(120deg, #edf1f7, #dfe7f3);
+}
+
+.paper-header h1 {
+  max-width: 1000px;
+  margin: 0 auto;
+  font-size: clamp(38px, 5.2vw, 58px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.venue {
+  margin: 10px 0 22px;
+  font-size: clamp(23px, 2.8vw, 31px);
+  font-weight: 600;
+}
+
+.authors {
+  max-width: 1050px;
+  margin: 0 auto;
+  color: #343a42;
+  font-size: clamp(15px, 1.8vw, 19px);
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+.authors a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.authors sup,
+.institutions sup {
+  margin-left: 1px;
+  color: var(--ink);
+  font-size: 0.65em;
+}
+
+.institutions {
+  margin: 10px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px 24px;
+  font-size: clamp(14px, 1.55vw, 17px);
+  line-height: 1.6;
+}
+
+.paper-links {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.paper-links a {
+  min-width: 106px;
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: white;
+  background: var(--button);
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.paper-links a:hover {
+  background: #101317;
+}
+
+.paper-links i {
+  font-size: 17px;
+}
+
+main {
+  padding-top: 48px;
+}
+
+.paper-section {
+  padding: 40px 0;
+}
+
+.paper-section h2 {
+  margin: 0 0 20px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.paper-section > p,
+.section-intro {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.75;
+  text-align: justify;
+}
+
+.section-intro {
+  margin-bottom: 24px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.paper-figure {
+  margin: 26px auto 0;
+}
+
+.paper-figure.teaser {
+  margin-top: 0;
+}
+
+.paper-figure img {
+  width: 100%;
+  height: auto;
+}
+
+.paper-figure figcaption {
+  margin-top: 10px;
+  color: #505760;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.table-figure {
+  padding: 18px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.table-figure-compact {
+  max-width: 760px;
+}
+
+.table-aerial-image {
+  transform: translateX(8%);
+}
+
+.acknowledgments {
+  padding-bottom: 70px;
+}
+
+.acknowledgments p {
+  color: var(--muted);
+  font-size: 13px;
+  text-align: left;
+}
+
+footer {
+  padding: 25px 18px;
+  color: var(--muted);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .page-width {
+    width: min(100% - 24px, 1080px);
+  }
+
+  .paper-header {
+    padding: 36px 0 30px;
+  }
+
+  .paper-header h1 {
+    font-size: 36px;
+  }
+
+  .venue {
+    font-size: 23px;
+  }
+
+  .authors {
+    font-size: 15px;
+  }
+
+  .institutions {
+    flex-direction: column;
+    gap: 1px;
+    font-size: 14px;
+  }
+
+  main {
+    padding-top: 30px;
+  }
+
+  .paper-section {
+    padding: 30px 0;
+  }
+
+  .paper-section h2 {
+    font-size: 26px;
+  }
+
+  .paper-section > p {
+    font-size: 15px;
+    text-align: left;
+  }
+
+  .table-figure {
+    padding: 8px;
+  }
+
+}

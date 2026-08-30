@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e9eef6" />
+    <meta
+      name="description"
+      content="XDG: Accelerated Visual Disambiguation — WACV 2027 project page."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XDG: Accelerated Visual Disambiguation" />
+    <meta property="og:description" content="WACV 2027 project page." />
+    <meta property="og:image" content="assets/figures/teaser.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="XDG: Accelerated Visual Disambiguation" />
+    <meta name="twitter:description" content="WACV 2027 project page." />
+    <meta name="twitter:image" content="assets/figures/teaser.png" />
+    <title>XDG: Accelerated Visual Disambiguation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="paper-header">
+      <div class="page-width">
+        <h1>XDG: Accelerated Visual Disambiguation</h1>
+        <p class="venue">WACV 2027</p>
+
+        <div class="authors" aria-label="Authors">
+          <a href="https://xtcpete.com/" target="_blank" rel="noreferrer">Gonglin Chen<sup>1,2</sup></a>,
+          <a href="https://scholar.google.com/citations?hl=en&user=K_7JlMgAAAAJ" target="_blank" rel="noreferrer">Ben Southall<sup>3</sup></a>,
+          <a href="https://corneliushsiao.github.io/" target="_blank" rel="noreferrer">Hanyuan Xiao<sup>1,2</sup></a>,
+          <a href="https://wbteng9526.github.io/" target="_blank" rel="noreferrer">Wenbin Teng<sup>1,2</sup></a>,
+          <a href="https://haolinxiong.com/" target="_blank" rel="noreferrer">Haolin Xiong<sup>1,2</sup></a>,
+          <a href="https://twfu.me/" target="_blank" rel="noreferrer">Tianwen Fu<sup>1,2</sup></a>,
+          <a href="https://github.com/junyiouy" target="_blank" rel="noreferrer">Junyi Ouyang<sup>1,2</sup></a>,
+          <a href="https://www.linkedin.com/in/kshitijminhas" target="_blank" rel="noreferrer">Kshitij Singh Minhas<sup>3</sup></a>,
+          <a href="https://www.sri.com/people/supun-samarasekera/" target="_blank" rel="noreferrer">Supun Samarasekera<sup>3</sup></a>,
+          <a href="https://www.sri.com/people/rakesh-kumar/" target="_blank" rel="noreferrer">Rakesh Kumar<sup>3</sup></a>,
+          <a href="https://www.yajie-zhao.com/" target="_blank" rel="noreferrer">Yajie Zhao<sup>1,2</sup></a>
+        </div>
+
+        <p class="institutions">
+          <span><sup>1</sup> USC Institute for Creative Technologies</span>
+          <span><sup>2</sup> University of Southern California</span>
+          <span><sup>3</sup> SRI International</span>
+        </p>
+
+        <div class="paper-links">
+          <a href="assets/xdg_paper.pdf" target="_blank">
+            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+            Paper
+          </a>
+          <a href="https://github.com/xtcpete/xdg" target="_blank" rel="noreferrer">
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
+            Code
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="page-width">
+      <figure class="paper-figure teaser">
+        <img
+          src="assets/figures/teaser.png"
+          alt="XDG teaser comparing a Louvre doppelganger pair, direct COLMAP, XDG, ground truth, and DG++ reconstructions"
+        />
+        <figcaption>
+          <strong>Figure 1.</strong> XDG efficiently removes visually plausible false matches while preserving reconstruction quality. Top left: an example of a doppelganger pair from two distinct parts of a scene (the Louvre Museum) from AerialMegaDepth. The images share similar visual structure, but the circled details reveal inconsistent local geometry and appearance. The highlighted blue and green camera poses show where this pair is placed in each reconstruction. A vanilla COLMAP reconstruction is corrupted by multiple similar false matches, while XDG filters doppelganger edges and recovers a camera layout comparable to Doppelgangers++ (DG++) and close to ground truth. Across pairwise and SfM benchmarks, XDG maintains comparable disambiguation performance to DG++ while significantly reducing inference cost.
+        </figcaption>
+      </figure>
+
+      <section id="abstract" class="paper-section">
+        <h2>Abstract</h2>
+        <p>
+          Visual aliasing, also known as the doppelganger problem, remains a key challenge for structure-from-motion (SfM): visually similar but physically distinct surfaces can produce incorrect image matches and degrade reconstruction quality. Previous work mitigates this issue with geometry-aware foundation-model features, but places a heavy transformer classifier on top of the backbone, making large-scale disambiguation expensive. We introduce XDG, an efficient visual disambiguation model designed for scalable SfM. Our key observation is that a 3D foundation model already performs the cross-view geometric reasoning necessary for visual disambiguation, so doppelganger classification should adapt the backbone representation directly rather than relearn pair reasoning in a separate heavy decoder. XDG fine-tunes Depth Anything 3 with lightweight LoRA adapters and repurposes its camera tokens as compact pair-level classification tokens. A compact MLP head predicts whether a candidate image pair observes the same 3D surface. Extensive experiments show that XDG provides a favorable accuracy-efficiency tradeoff: it remains competitive with the state-of-the-art disambiguation method across pairwise and reconstruction benchmarks and delivers more than a 3x inference speedup. On individual LaMAR scenes containing thousands of images, XDG saves more than 10 hours of visual disambiguation processing.
+        </p>
+      </section>
+
+      <section id="method" class="paper-section">
+        <h2>Method</h2>
+        <figure class="paper-figure">
+          <img
+            src="assets/figures/architecture.png"
+            alt="XDG architecture using a shared LoRA-adapted DA3 backbone, bidirectional camera-token fusion, and an MLP classifier"
+          />
+          <figcaption>
+            <strong>Figure 2.</strong> XDG architecture. Given a candidate pair (I<sub>A</sub>, I<sub>B</sub>), XDG processes both image orders using a shared DA3-Base backbone with LoRA adapters. Camera tokens from the reversed pass are realigned with the canonical image order and fused stage-wise. The fused tokens are projected, normalized, averaged across stages and views, and then classified by a lightweight MLP as either a true match or a doppelganger edge.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="results" class="paper-section">
+        <h2>Results</h2>
+        <figure class="paper-figure table-figure">
+          <img
+            src="assets/figures/table-pairwise.png"
+            alt="Table 1 from the paper comparing DG-OG, DG++, and XDG pairwise visual disambiguation accuracy and runtime"
+          />
+        </figure>
+        <figure class="paper-figure table-figure">
+          <img
+            src="assets/figures/table-visymscene.png"
+            alt="Table 2 from the paper comparing COLMAP reconstruction results on VisymScenes"
+          />
+        </figure>
+        <figure class="paper-figure table-figure table-figure-compact">
+          <img
+            class="table-aerial-image"
+            src="assets/figures/table-aerial.png"
+            alt="Table 3 from the paper comparing COLMAP reconstruction accuracy and runtime on AerialMegaDepth"
+          />
+        </figure>
+        <figure class="paper-figure table-figure table-figure-compact">
+          <img
+            src="assets/figures/table-wriva.png"
+            alt="Table 4 from the paper comparing GLUEMAP reconstruction accuracy and runtime on WRIVA"
+          />
+        </figure>
+        <figure class="paper-figure table-figure table-figure-compact">
+          <img
+            src="assets/figures/table-lamar.png"
+            alt="Table 5 from the paper comparing GLUEMAP reconstruction accuracy and runtime on LaMAR"
+          />
+        </figure>
+      </section>
+
+      <section id="reconstructions" class="paper-section">
+        <h2>Qualitative Reconstructions</h2>
+        <figure class="paper-figure">
+          <img
+            src="assets/figures/qualitative-aerial.png"
+            alt="Qualitative reconstructions from VisymScenes, St. Vitus Cathedral, and Cologne Cathedral"
+          />
+          <figcaption>
+            <strong>Figure 3.</strong> Qualitative COLMAP reconstructions. Top: VisymSite0023 from VisymScenes reconstructed with vanilla COLMAP, DG++ filtering, and XDG filtering. Vanilla COLMAP produces a model with incorrectly registered images, while both disambiguation methods separate these cameras into a different model. Bottom: two scenes from AerialMegaDepth. From left to right, we show the ground-truth camera layout, vanilla COLMAP, DG++ with COLMAP, and XDG with COLMAP. Without doppelganger filtering, physically distinct surfaces with similar appearance are collapsed into one, whereas DG++ and XDG successfully separate them.
+          </figcaption>
+        </figure>
+        <figure class="paper-figure">
+          <img
+            src="assets/figures/qualitative-wriva.png"
+            alt="Qualitative WRIVA reconstructions comparing ground truth, no disambiguation, DG++, and XDG"
+          />
+          <figcaption>
+            <strong>Figure 4.</strong> Qualitative GLUEMAP reconstruction. We show two WRIVA sequences, with the top two rows corresponding to one sequence and the bottom two rows to another. For each sequence, the first row shows the ground-truth camera layout and reconstructions without disambiguation, with DG++, and with XDG; blue and green cameras indicate the ambiguous image pair shown below. The second row shows the image pair and the corresponding alignment to ground truth.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="paper-section acknowledgments">
+        <h2>Acknowledgments</h2>
+        <p>
+          Supported by the Intelligence Advanced Research Projects Activity (IARPA) via Department of Interior/Interior Business Center (DOI/IBC) contract number 140D0423C0075. The U.S. Government is authorized to reproduce and distribute reprints for governmental purposes notwithstanding any copyright annotation thereon. Disclaimer: The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of IARPA, DOI/IBC, or the U.S. Government.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>XDG · WACV 2027</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
