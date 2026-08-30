@@ -1,0 +1,69 @@
+model_config: ../model_configs/xdg.yaml
+
+data:
+  type: src.datasets.pairwise_disambiguation_dataset
+  num_workers: 16
+  train:
+    image_dir:
+      - data/doppelgangers/images/train_set_flip/
+      - data/doppelgangers/images/train_megadepth/
+      - data/visymscenes/
+    batch_size: 16
+    img_size: [560, 560]
+    resolutions:
+      - [560, 560]
+      - [560, 420]
+      - [560, 364]
+      - [560, 322]
+      - [420, 560]
+      - [364, 560]
+      - [322, 560]
+    mode: resize
+    flip_order_prob: 0.5
+    pair_path:
+      - data/pairs_metadata/train_pairs_flip.npy
+      - data/pairs_metadata/train_pairs_megadepth.npy
+      - data/pairs_metadata/train_pairs_visym.npy
+  test:
+    image_dir:
+      - data/doppelgangers/images/test_set/
+    batch_size: 16
+    img_size: [560, 560]
+    mode: resize
+    pair_path:
+      - data/pairs_metadata/test_pairs.npy
+  test_sets:
+    doppelgangers:
+      image_dir:
+        - data/doppelgangers/images/test_set/
+      pair_path:
+        - data/pairs_metadata/test_pairs.npy
+    visymscenes:
+      image_dir:
+        - data/visymscenes/
+      pair_path:
+        - data/pairs_metadata/test_pairs_visym.npy
+
+trainer:
+  type: trainers.doppelgangers_trainer
+  epochs: 10
+  seed: 42
+  gradient_clip_val: 1.0
+  gradient_clip_algorithm: norm
+  opt:
+    type: adamw
+    lr: 1.0e-4
+    backbone_lr: 1.0e-4
+    beta1: 0.9
+    beta2: 0.999
+    weight_decay: 0.05
+    scheduler: step
+    min_lr: 1.0e-8
+    start_epoch: 3
+    gamma: 0.8
+    warmup_epoch: 1
+
+viz:
+  log_freq: 10
+  save_freq: 1
+  val_plot_freq: 10

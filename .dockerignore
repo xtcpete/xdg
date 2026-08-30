@@ -1,0 +1,11 @@
+.git/
+.codex
+data/
+logs/
+output/
+outputs/
+val_logs/
+weights/
+*.ckpt
+*.pt
+*.pth
