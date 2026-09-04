@@ -15,6 +15,7 @@
   - [Score an explicit pair list](#score-an-explicit-pair-list)
 - [Training](#training)
 - [Evaluation](#evaluation)
+- [Citation](#citation)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 - [Third-party code](#third-party-code)
@@ -133,6 +134,22 @@ The Doppelgangers test set is used by default. Evaluate on VisymScenes with
 
 The command reports average precision, ROC AUC, operating-point precision/recall, and inference time per pair.
 
+## Citation
+
+If you find XDG useful in your research, please cite:
+
+```bibtex
+@misc{chen2026xdgacceleratedvisualdisambiguation,
+  title={XDG: Accelerated Visual Disambiguation},
+  author={Gonglin Chen and Ben Southall and Hanyuan Xiao and Wenbin Teng and Haolin Xiong and Tianwen Fu and Junyi Ouyang and Kshitij Singh Minhas and Supun Samarasekera and Rakesh Kumar and Yajie Zhao},
+  year={2026},
+  eprint={2608.29733},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2608.29733},
+}
+```
+
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE).
@@ -143,7 +160,7 @@ and evaluation are subject to their respective providers' licenses and terms;
 
 We thank the authors of these great repositories: [Depth Anything 3](https://github.com/ByteDance-Seed/Depth-Anything-3), [Doppelgangers](https://github.com/RuojinCai/doppelgangers), [Doppelgangers++](https://github.com/doppelgangers25/doppelgangers-plusplus), and [COLMAP](https://github.com/colmap/colmap), along with many other inspiring works from the community.
 
-Supported by the Intelligence Advanced Research Projects Activity (IARPA) via Department of Interior/Interior Business Center (DOI/IBC) contract number 140D0423C0075. The U.S. Government is authorized to reproduce and distribute reprints for governmental purposes notwithstanding any copyright annotation thereon. Disclaimer: The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of IARPA, DOI/IBC, or the U.S. Government.
+This material is based upon work supported by the Intelligence Advanced Research Projects Activity under prime Contract No. 140D0423C0034. The U.S. Government is authorized to reproduce and distribute reprints for governmental purposes notwithstanding any copyright annotation thereon. Disclaimer: The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of IARPA, DOI/IBC, or the U.S. Government.
 
 ## Third-party code
 
