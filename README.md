@@ -18,6 +18,20 @@ The page includes the paper PDF, author links, original paper figures, cropped
 result tables, BibTeX, and static qualitative reconstructions from
 AerialMegaDepth, VisymScenes, and WRIVA.
 
+## Citation
+
+```bibtex
+@misc{chen2026xdgacceleratedvisualdisambiguation,
+  title         = {XDG: Accelerated Visual Disambiguation},
+  author        = {Gonglin Chen and Ben Southall and Hanyuan Xiao and Wenbin Teng and Haolin Xiong and Tianwen Fu and Junyi Ouyang and Kshitij Singh Minhas and Supun Samarasekera and Rakesh Kumar and Yajie Zhao},
+  year          = {2026},
+  eprint        = {2608.29733},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2608.29733}
+}
+```
+
 ## Publish on `gh-pages`
 
 Copy the **contents** of this directory to the root of the repository's

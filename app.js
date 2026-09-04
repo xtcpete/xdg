@@ -16,4 +16,21 @@ function initializeReveal() {
   targets.forEach((target) => observer.observe(target));
 }
 
+function initializeCitation() {
+  const button = document.querySelector("#copy-citation");
+  const text = document.querySelector("#citation-text")?.innerText;
+  if (!button || !text) return;
+
+  button.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = "Copied";
+    } catch {
+      button.textContent = "Select and copy";
+    }
+    window.setTimeout(() => { button.textContent = "Copy BibTeX"; }, 1800);
+  });
+}
+
 initializeReveal();
+initializeCitation();
