@@ -70,6 +70,31 @@ You can download pretrined checkpoint [here](https://drive.google.com/file/d/1Jr
 
 Inference uses only the model configuration at [`configs/model_configs/xdg.yaml`](configs/model_configs/xdg.yaml). The file contains the released architecture and the preprocessing/runtime defaults used at inference time.
 
+### Example hloc reconstruction
+
+[`pipeline.py`](pipeline.py) runs ALIKED + LightGlue matching, geometric
+verification, XDG filtering, and mapping. It
+uses exhaustive pairs for fewer than 30 images and NetVLAD retrieval otherwise.
+Install hloc using `python -m pip install git+https://github.com/cvg/Hierarchical-Localization.git`
+if it is not already installed.
+
+```bash
+python pipeline.py \
+  --images path/to/images \
+  --outputs outputs/example \
+  --ckpt weights/xdg.pth \
+  --threshold 0.8
+```
+
+Use an empty output directory for each run. The reconstruction is saved under
+`outputs/example/sfm/`, alongside the original and filtered COLMAP databases.
+Pair probabilities are saved under `outputs/example/filtering/`. Use
+`--feature_conf` and `--matcher_conf` to select compatible hloc configurations;
+`python pipeline.py --help` lists the other options.
+
+For better feature matching, check out our previous work [RDD](https://github.com/xtcpete/rdd) and its
+[SfM example](https://github.com/xtcpete/rdd/blob/main/demo_sfm.ipynb).
+
 ### Filter a COLMAP database
 
 The database must already contain images and geometrically verified pairs in `two_view_geometries`.
