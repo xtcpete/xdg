@@ -9,6 +9,8 @@ import argparse
 from pathlib import Path
 import sqlite3
 
+from src.utils.checkpoints import CHECKPOINT_HELP, resolve_checkpoint
+
 
 def get_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
@@ -19,7 +21,7 @@ def get_args(argv=None):
         help="Empty output directory (use a new directory for each run).",
     )
     parser.add_argument("--config", type=Path, default=Path("configs/model_configs/xdg.yaml"))
-    parser.add_argument("--ckpt", type=Path, default=Path("weights/xdg.pth"))
+    parser.add_argument("--ckpt", type=Path, default=None, help=CHECKPOINT_HELP)
     parser.add_argument("--threshold", type=float, default=0.8)
     parser.add_argument("--feature_conf", default="aliked-n16")
     parser.add_argument("--matcher_conf", default="aliked+lightglue")
@@ -50,9 +52,8 @@ def main(argv=None):
     args = get_args(argv)
     if not args.images.is_dir():
         raise NotADirectoryError(args.images)
-    for path in (args.config, args.ckpt):
-        if not path.is_file():
-            raise FileNotFoundError(path)
+    if not args.config.is_file():
+        raise FileNotFoundError(args.config)
     if not 0 <= args.threshold <= 1:
         raise ValueError("--threshold must be between 0 and 1.")
     if args.num_matched < 1 or args.exhaustive_if_less < 0:
@@ -80,6 +81,7 @@ def main(argv=None):
     )
     from remove_doppelgangers import main as filter_database
 
+    args.ckpt = resolve_checkpoint(args.ckpt)
     feature_conf = extract_features.confs[args.feature_conf]
     matcher_conf = match_features.confs[args.matcher_conf]
     args.outputs.mkdir(parents=True, exist_ok=True)

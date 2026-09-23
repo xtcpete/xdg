@@ -5,6 +5,7 @@ import torch
 import importlib
 from tqdm import tqdm
 
+from src.utils.checkpoints import CHECKPOINT_HELP, resolve_checkpoint
 from src.utils.config import load_model_config
 from src.utils.prediction import vote_ensemble_probs, vote_symmetrical_logits
 from training.precision import resolve_autocast_dtype
@@ -23,7 +24,7 @@ def get_args(argv=None):
     parser.add_argument('--input_image_path', type=str, required=True, help='Path to the input image dataset.')
     parser.add_argument('--output_path', type=str, required=True, help='Path to save output results.')
     parser.add_argument('--threshold', type=float, default=0.8, help='Doppelgangers threshold.')
-    parser.add_argument('--ckpt', type=str, default='weights/xdg.pth', help="Path to the model checkpoint.")
+    parser.add_argument('--ckpt', type=str, default=None, help=CHECKPOINT_HELP)
     parser.add_argument('--batch_size', type=int, default=None, help='Override the model config inference batch size.')
     parser.add_argument('--img_size', type=int, default=None, help='Input image size for the classifier.')
     parser.add_argument('--device', type=str, default='cuda', help='Device to use (e.g. cuda, cuda:0, cpu).')
@@ -50,6 +51,7 @@ def _set_matmul_precision(cfg):
 
 
 def _load_decoder_checkpoint(model, checkpoint_path, strict=True):
+    checkpoint_path = resolve_checkpoint(checkpoint_path)
     ckpt = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     if isinstance(ckpt, dict):
         state_dict = ckpt.get("dec") or ckpt.get("state_dict") or ckpt.get("model") or ckpt
@@ -253,7 +255,7 @@ def _build_args(
     database_path=None,
     pairs_txt=None,
     threshold=0.8,
-    ckpt="weights/xdg.pth",
+    ckpt=None,
     batch_size=None,
     img_size=None,
     device="cuda",
@@ -296,7 +298,7 @@ def main(
     database_path=None,
     pairs_txt=None,
     threshold=0.8,
-    ckpt="weights/xdg.pth",
+    ckpt=None,
     batch_size=None,
     img_size=None,
     device="cuda",

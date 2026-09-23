@@ -6,6 +6,7 @@ import pytorch_lightning as pl
 import torch
 from pytorch_lightning.loggers import TensorBoardLogger
 
+from src.utils.checkpoints import CHECKPOINT_HELP, resolve_checkpoint
 from src.utils.config import load_training_config
 from training.lightning import DoppelgangersDataModule, DoppelgangersLitModule
 from training.precision import resolve_mixed_precision
@@ -15,7 +16,7 @@ from training.utils import set_random_seed
 TEST_DATASETS = ("doppelgangers", "visymscenes")
 
 
-def get_args():
+def get_args(argv=None):
     parser = argparse.ArgumentParser(
         description="Evaluate the XDG classifier with PyTorch Lightning."
     )
@@ -38,7 +39,7 @@ def get_args():
         "--ckpt",
         type=str,
         default=None,
-        help="Checkpoint path to load for testing.",
+        help=CHECKPOINT_HELP,
     )
     parser.add_argument(
         "--dataset",
@@ -49,7 +50,7 @@ def get_args():
     parser.add_argument(
         "--allow_random_init",
         action="store_true",
-        help="Run validation with randomly initialized classifier weights.",
+        help="Skip default checkpoint loading when --ckpt is omitted (untrained baseline).",
     )
     parser.add_argument(
         "--allow_partial_load",
@@ -57,7 +58,7 @@ def get_args():
         help="Allow checkpoints with missing or unexpected model keys.",
     )
     parser.add_argument("--max_vis", type=int, default=4)
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 def devices_arg(devices: str):
@@ -199,14 +200,10 @@ def load_weights_for_validation(lit_module, ckpt_path, allow_partial_load=False)
 
 def test_main():
     args = get_args()
-    if args.ckpt is None and not args.allow_random_init:
-        raise ValueError(
-            "--ckpt is required for testing a trained model. "
-            "Pass --allow_random_init only when intentionally measuring an untrained baseline."
-        )
-
     cfg = load_training_config(args.config)
     select_test_dataset(cfg, args.dataset)
+    if args.ckpt is not None or not args.allow_random_init:
+        args.ckpt = resolve_checkpoint(args.ckpt)
 
     cfg_name = os.path.splitext(os.path.basename(args.config))[0]
     logger = build_logger(args.log_dir, cfg_name)

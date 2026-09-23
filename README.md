@@ -64,7 +64,10 @@ Mount image, weight, and output directories when running the container; these di
 
 ## Checkpoints
 
-You can download pretrined checkpoint [here](https://drive.google.com/file/d/1JrhR8dqTVx62aIwdy0YqFAkU3lQRDo0C/view?usp=share_link).
+Testing and inference automatically load the released checkpoint from
+[Hugging Face](https://huggingface.co/xtcpete/xdg).
+The checkpoint is also available on
+[Google Drive](https://drive.google.com/file/d/1JrhR8dqTVx62aIwdy0YqFAkU3lQRDo0C/view?usp=share_link).
 
 ## Inference
 
@@ -82,7 +85,6 @@ if it is not already installed.
 python pipeline.py \
   --images path/to/images \
   --outputs outputs/example \
-  --ckpt weights/xdg.pth \
   --threshold 0.8
 ```
 
@@ -102,7 +104,6 @@ The database must already contain images and geometrically verified pairs in `tw
 ```bash
 python remove_doppelgangers.py \
   --config configs/model_configs/xdg.yaml \
-  --ckpt weights/xdg.pth \
   --database_path path/to/database.db \
   --input_image_path path/to/images \
   --output_path output/scene \
@@ -125,7 +126,6 @@ Run inference without a COLMAP database:
 ```bash
 python remove_doppelgangers.py \
   --config configs/model_configs/xdg.yaml \
-  --ckpt weights/xdg.pth \
   --pairs_txt path/to/pairs.txt \
   --input_image_path path/to/images \
   --output_path output/pairs
@@ -151,8 +151,11 @@ Resume training with `--resume_from path/to/last.ckpt`. Override the configured 
 Validation requires the training config because it needs dataset settings as well as the referenced model config:
 
 ```bash
-python test.py --ckpt path/to/xdg.pth
+python test.py
 ```
+
+The released checkpoint is loaded automatically. Use `--ckpt path/to/xdg.pth`
+for a different local checkpoint.
 
 The Doppelgangers test set is used by default. Evaluate on VisymScenes with
 `--dataset visymscenes`; its paths are configured under `data.test_sets` in the training YAML.
